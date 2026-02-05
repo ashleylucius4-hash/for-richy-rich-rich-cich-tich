@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💌</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #ffe6eb;
+      font-family: "Comic Sans MS", cursive;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: #c4002f;
+    }
+
+    .center {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ===== ENVELOPE ===== */
+    .envelope {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background: #d6002f;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+
+    .flap {
+      position: absolute;
+      inset: 0;
+      background: #b00028;
+      clip-path: polygon(0 0, 50% 55%, 100% 0);
+      transform-origin: top;
+      transition: transform 0.8s ease;
+      pointer-events: none;
+    }
+
+    .letter {
+      position: absolute;
+      bottom: -100%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      color: #ff4d6d;
+      transition: bottom 0.8s ease;
+    }
+
+    .open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .open .letter {
+      bottom: 10%;
+    }
+
+    /* ===== BUTTONS ===== */
+    .buttons {
+      margin-top: 20px;
+      display: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    .yes {
+      background: #ff4d88;
+      color: white;
+    }
+
+    .no {
+      background: #ccc;
+      position: relative;
+    }
+
+    /* ===== FLOATING HEARTS & CATS ===== */
+    .floaty {
+      position: fixed;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      20% { opacity: 1; }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+
+    /* ===== FINAL SCREEN ===== */
+    .final {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: pink;
+      z-index: 10;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .final img {
+      width: 260px;
+      border-radius: 20px;
+      margin: 20px 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .jumping-cat {
+      position: absolute;
+      font-size: 2.5em;
+      animation: jump 1s infinite alternate;
+    }
+
+    @keyframes jump {
+      from { transform: translateY(0); }
+      to { transform: translateY(-40px); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="center">
+    <h1>Tap to Open 💌</h1>
+
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+      <div class="letter">
+        <p>
+          Love you ❤️<br><br>
+          — from me,<br>
+          Oreo 🐾,<br>
+          and Che Che 🐾
+        </p>
+      </div>
+    </div>
+
+    <div class="buttons" id="buttons">
+      <p>Will you be my Valentine? 💘</p>
+      <button class="yes" onclick="sayYes()">Yes 💖</button>
+      <button class="no" id="noBtn">No 🙄</button>
+    </div>
+  </div>
+
+  <!-- FINAL SCREEN -->
+  <div class="final" id="finalScreen">
+    <h1>Happy Valentine’s Day ❤️</h1>
+    <img src="https://media1.tenor.com/m/o_5RQarGvJ0AAAAC/kiss.gif">
+    <h2>I know you’ve said yes anyways 😌💘</h2>
+  </div>
+
+  <script>
+    const envelope = document.getElementById("envelope");
+    const buttons = document.getElementById("buttons");
+    const noBtn = document.getElementById("noBtn");
+    const finalScreen = document.getElementById("finalScreen");
+
+    envelope.addEventListener("click", () => {
+      envelope.classList.add("open");
+      setTimeout(() => {
+        buttons.style.display = "block";
+      }, 900);
+    });
+
+    // No button runs away
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.position = "absolute";
+      noBtn.style.left = Math.random() * 80 + "vw";
+      noBtn.style.top = Math.random() * 80 + "vh";
+    });
+
+    // Yes = final screen
+    function sayYes() {
+      finalScreen.style.display = "flex";
+
+      for (let i = 0; i < 20; i++) {
+        const cat = document.createElement("div");
+        cat.className = "jumping-cat";
+        cat.textContent = "🐱";
+        cat.style.left = Math.random() * 100 + "vw";
+        cat.style.top = Math.random() * 100 + "vh";
+        finalScreen.appendChild(cat);
+      }
+    }
+
+    // Floating hearts & cats forever
+    setInterval(() => {
+      const floaty = document.createElement("div");
+      floaty.className = "floaty";
+      floaty.textContent = Math.random() > 0.5 ? "💗" : "🐱";
+      floaty.style.left = Math.random() * 100 + "vw";
+      floaty.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(floaty);
+
+      setTimeout(() => floaty.remove(), 7000);
+    }, 300);
+  </script>
+
+</body>
+</html>
+
+
+
+
